@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+ 
+  <body>
+
+    <div class="container">
+      <div class="logo">
+           <img src="https://files.slack.com/files-pri/T9N1J7JA0-FA0JJ0XDK/image.png" alt="Twittler logo">
+      </div>
+      <center>
+      <button>More Tweets</button>
+  
+        <div class="profilePic"> 
+          <img id="profPic" src="https://static.comicvine.com/uploads/original/0/40/711127-simpsons_osx_wallpaper_homer_9hk_.jpg" alt="Homer" style="width:200px;height:200px;">
+        </div>
+        
+        <h1>Homer Simpson</h1>
+        <h2>@donutLife</h2>
+
+          <h3 >Tweets  Following  Followers</h3>
+          <h4 >150k 100k 100M</h4>
+
+      </center>
+       <div id="row">
+            <div id="allTweets"></div>
+            <div id="thisUser"></div>
+
+       </div>
+ 
+    </div>
+
+
+    <script>
+
+      $(document).ready(function() {
+
+        var $body = $('body');
+        $body.html();
+        //initial general tweets
+        var index = streams.home.length - 1;
+        while(index >= 0){
+          var tweet = streams.home[index];
+          var $tweet = $('<div></div>');
+          $tweet.html('@' +'<span class="user">'+tweet.user+'</span>' + ': ' + tweet.message +' '+ '<span class ="date">' + tweet.created_at +'</span>');
+          $tweet.appendTo('#allTweets');
+          index -= 1;
+        }
+        //general tweets
+        $('button').on('click', function() {
+          if(! $('#allTweets').is(':empty')) {
+            $('#allTweets').html('');
+          }
+          var index = streams.home.length - 1;
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div></div>');
+           $tweet.html('@' +'<span class="user">'+tweet.user+'</span>' + ': ' + tweet.message +' '+ '<span class ="date">' + tweet.created_at +'</span>');
+            $tweet.appendTo('#allTweets');
+            index -= 1;
+          }
+        });
+        //specific user tweets 
+        $('body').on('click', '.user', function() {
+          var person = $(this).text();
+          let index = streams.users[person].length - 1;
+          
+          if(! $('#thisUser').is(':empty')) {
+            $('#thisUser').html('');
+          }
+          
+          $('h2').html('@'+person);
+          $('h1').html(person);
+
+          //profile pictures
+          if(person === 'shawndrost') {
+            $('#profPic').attr("src", "https://4.bp.blogspot.com/-sJAevElp9FA/Vz4RahdZJwI/AAAAAAAABFA/nwDCCIFCbqc-skNKbARr37Q4jBs0cktxwCLcB/s1600/Bart%2BWill%2BNOT%2BLike%2BThis%2521.png");
+          } else if (person === 'sharksforcheap') {
+            $('#profPic').attr("src", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLRJBKSqBDH-f2sDBRtJP5bVSZ-dRA5rSnaYtHqFhfb5ehb5kWaQ");
+          } else if (person === 'mracus') {
+            $('#profPic').attr("src", "https://pre00.deviantart.net/3fc4/th/pre/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png");
+          } else {
+            $('#profPic').attr("src", "https://www.sergent-tobogo.com/wp-content/uploads/2016/04/homer-popeye.png");
+          }
+          
+          
+          while(index >= 0) {
+            let $tweet = $('<div></div>');
+            $tweet.html('@' + '<span class="user">' + person+ '</span>' + ': ' + streams.users[person][index].message +' '+ '<span class ="date">' + tweet.created_at +'</span>');
+            $tweet.appendTo('#thisUser');
+            index -= 1;
+          }
+        });
+        
+      });
+
+    </script>
+  </body>
+</html>
